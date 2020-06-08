@@ -26,11 +26,16 @@ RUN \
  LC_ALL=C.UTF-8 add-apt-repository ppa:deluge-team/stable && \
  apt-get update && \
  apt-get install -y \
-	python3 python3-pip windscribe-cli iptables-persistent deluged deluge-web deluge-console resolvconf- \
+	curl python3 python3-pip windscribe-cli iptables-persistent deluged deluge-web deluge-console resolvconf- \
 	nano dnsutils iputils-ping lsof net-tools cron && \
- python3 -m pip install pexpect netifaces netaddr pyufw psutil && \
+ python3 -m pip install pexpect netifaces netaddr pyufw psutil
 # python3 -m pip install pexpect && \
- apt-get clean && \
+RUN curl -L -O $( curl -s https://api.github.com/repos/Radarr/Radarr/releases | grep linux.tar.gz | grep browser_download_url | head -1 | cut -d \" -f 4 )
+RUN curl -L -O $( curl -s https://api.github.com/repos/Sonarr/Sonarr/releases | grep linux.tar.gz | grep browser_download_url | head -1 | cut -d \" -f 4 )
+RUN tar -xvzf Radarr.develop.*.linux.tar.gz && \
+ tar -xvzf Sonarr.develop.*.linux.tar.gz && \
+ mv Radarr /opt && \
+ mv Sonarr /opt && \
  rm -rf \
   /tmp/* \
   /var/lib/apt/lists/* \
